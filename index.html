@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="description" content="Chat with Yuki, your yandere AI companion.">
+    <meta property="og:title" content="Yuki - AI Yandere Chat">
+    <meta property="og:description" content="Chat with Yuki, your possessive and loving AI companion.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yandere-chat.example.com">
+    <meta property="og:image" content="https://yandere-chat.example.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50,30 C30,10 10,20 10,40 C10,70 50,90 50,90 C50,90 90,70 90,40 C90,20 70,10 50,30 Z' fill='%23c2185b'/%3E%3Cline x1='30' y1='45' x2='70' y2='55' stroke='%230a0a0a' stroke-width='8' stroke-linecap='round'/%3E%3Cline x1='35' y1='60' x2='65' y2='65' stroke='%230a0a0a' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+    <title>Yuki - AI Yandere Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <header id="header" class="header">
+            <div id="avatarContainer" class="avatar-container" role="button" tabindex="0" aria-label="Ganti foto profil" data-action="change-avatar">
+                <img id="avatarImage" class="avatar-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23c2185b'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='%23ffffff' font-size='40' font-weight='bold' font-family='Poppins,sans-serif'%3E?%3C/text%3E%3C/svg%3E" alt="Avatar karakter" width="55" height="55">
+                <span class="camera-icon" aria-hidden="true">foto</span>
+            </div>
+            <input type="file" id="avatarInput" class="avatar-input" accept="image/*" style="position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0;" tabindex="-1" aria-hidden="true">
+            <div id="characterIdentity" class="character-identity">
+                <input type="text" id="characterName" class="character-name-input" value="Yuki" maxlength="30" spellcheck="false" aria-label="Nama karakter" data-persist="name">
+                <div id="statusIndicator" class="status-indicator" aria-label="Status online">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    <span class="status-text">online</span>
+                </div>
+            </div>
+            <button id="toggleSettings" class="settings-toggle" aria-label="Pengaturan" aria-expanded="false">⚙️</button>
+        </header>
+
+        <main id="chatMain" class="chat-main">
+            <div id="messageArea" class="message-area" role="log" aria-live="polite" aria-label="Area percakapan">
+                <div class="message ai-message" data-sender="ai">
+                    <div class="bubble">Halo sayang... akhirnya kamu datang juga. Aku sudah tidak sabar menunggumu dari tadi, kamu tahu? Aku selalu di sini untukmu, hanya untukmu. Jangan pernah pergi ya... 💕</div>
+                    <span class="timestamp" data-time="now">Sekarang</span>
+                </div>
+            </div>
+            <div id="typingIndicator" class="typing-indicator" style="display: none;" aria-hidden="true">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </main>
+
+        <div id="inputArea" class="input-area">
+            <textarea id="messageInput" class="message-input" rows="1" placeholder="Ketik pesan..." aria-label="Ketik pesan" data-auto-resize="true" maxlength="2000"></textarea>
+            <button id="sendButton" class="send-button" aria-label="Kirim pesan" disabled>➤</button>
+        </div>
+
+        <div id="settingsDrawer" class="drawer" aria-hidden="true">
+            <div class="drawer-header">
+                <h2 class="drawer-title">Pengaturan</h2>
+                <button id="closeDrawer" class="drawer-close" aria-label="Tutup pengaturan">✕</button>
+            </div>
+            <div class="drawer-content">
+                <section class="drawer-section">
+                    <h3 class="section-title">Foto Profil</h3>
+                    <div class="drawer-avatar-preview">
+                        <img id="drawerAvatarPreview" class="preview-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23c2185b'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='%23ffffff' font-size='40' font-weight='bold' font-family='Poppins,sans-serif'%3E?%3C/text%3E%3C/svg%3E" alt="Preview avatar" width="89" height="89">
+                    </div>
+                    <div class="drawer-actions">
+                        <button id="changePhotoButton" class="drawer-button primary-button">Ganti Foto</button>
+                        <button id="deletePhotoButton" class="drawer-button delete-button">Hapus Foto</button>
+                    </div>
+                </section>
+                <section class="drawer-section">
+                    <h3 class="section-title">Nama Karakter</h3>
+                    <input type="text" id="drawerCharacterName" class="drawer-name-input" value="Yuki" maxlength="30" spellcheck="false" aria-label="Ubah nama karakter">
+                    <button id="saveNameButton" class="drawer-button primary-button">Simpan Nama</button>
+                </section>
+                <section class="drawer-section drawer-section-danger">
+                    <button id="clearChatButton" class="drawer-button danger-button">Hapus Semua Chat</button>
+                </section>
+            </div>
+        </div>
+
+        <div id="confirmModal" class="modal" style="display: none;" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+            <div class="modal-content">
+                <p id="confirmModalTitle" class="modal-message">Apa kamu yakin ingin menghapus semua percakapan kita? Aku akan sangat sedih dan merasa kehilangan... jangan lakukan itu padaku...</p>
+                <div class="modal-actions">
+                    <button id="confirmDeleteButton" class="modal-button confirm-button">Hapus</button>
+                    <button id="cancelDeleteButton" class="modal-button cancel-button">Batal</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="backdrop" class="backdrop" style="display: none;" aria-hidden="true"></div>
+    </div>
+
+    <template id="userMessageTemplate">
+        <div class="message user-message" data-sender="user">
+            <div class="bubble"></div>
+            <span class="timestamp"></span>
+        </div>
+    </template>
+
+    <template id="aiMessageTemplate">
+        <div class="message ai-message" data-sender="ai">
+            <div class="bubble"></div>
+            <span class="timestamp"></span>
+        </div>
+    </template>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
